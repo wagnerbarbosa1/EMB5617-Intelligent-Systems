@@ -1,11 +1,3 @@
-labirinto_exemplo = [
-        [2, 0, 0, 0, 1],
-        [0, 1, 1, 1, 0],
-        [0, 1, 1, 0, 0],
-        [0, 1, 0, 0, 1],
-        [0, 0, 0, 3, 1]
-    ]
-
 def graphStructure(maze_matrix):
     """Cria a estrutura de vértices do grafo e os estados de fronteira do BFS"""
     state = []
@@ -26,19 +18,16 @@ def graphStructure(maze_matrix):
                 goal = (i, j)
 
     visited = state.copy()
-
     return vertices, state, visited, goal
 
 def sucessor(vertice, vertices):
     linhas, colunas = vertice
-
     paths = [
         (linhas+1, colunas),
         (linhas-1, colunas),
         (linhas,colunas+1),
         (linhas,colunas-1)
     ]
-
     sucessores = []
 
     for path in paths:
@@ -57,29 +46,25 @@ def adjacencyMatrix(vertices):
 
     for i in range(0, len(vertices)):
         sucessores = sucessor(vertices[i], vertices)
-
         for k in range(0, len(vertices)):
             if vertices[k] in sucessores:
                 adj_matrix[i][k] = 1
-
     return adj_matrix
 
 def boleanDotProduct(adj_matrix, states):
     """Implementação do produto escalar em um semianel booleano"""
-    raw_vec = [0 for _ in range(len(states))]
 
+    raw_vec = [0 for _ in range(len(states))]
     for i in range(0, len(adj_matrix)):
         search_and = False
         for j in range(0, len(states)):
             search_and = search_and or (adj_matrix[i][j] and states[j])
 
         raw_vec[i] = search_and
-
     return raw_vec
 
 def visitedCheck(raw_vec, visited):
     """Atualiza o vetor que verifica os vértices que já foram visitados e aplica uma máscara para não retornarem"""
-
     new_state = [0 for _ in range(0, len(raw_vec))]
     mask = [0 for _ in range(0, len(raw_vec))]
 
@@ -100,7 +85,6 @@ def bfs(maze_matrix):
 
         for i in range(0, len(state)):
             if state[i] and testeObjetivo(vertice[i], goal):
-
                 path = []
                 current = i
 
@@ -109,7 +93,7 @@ def bfs(maze_matrix):
                     current = parent[current]
                 path.reverse()
 
-                return path
+                return print(f"\nBFS: Caminho encontrado com sucesso\n{path}")
 
         raw_vec = boleanDotProduct(adj_matrix, state)
         visited, new_state = visitedCheck(raw_vec, visited)
@@ -121,10 +105,4 @@ def bfs(maze_matrix):
                         parent[i] = j
                         break
         state = new_state
-    return None
-
-path = bfs(labirinto_exemplo)
-if path == None:
-    print("Não existe caminho")
-else:
-    print(f"\nBFS: Caminho encontrado com sucesso\n{path}")
+    return print("Não existe caminho possível")

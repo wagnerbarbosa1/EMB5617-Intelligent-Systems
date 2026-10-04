@@ -66,9 +66,13 @@ def busca_em_profundidade(labirinto):
             if vizinho not in visitados:
                 pilha.append((vizinho, caminho + [vizinho]))
 
-    return print("Não há caminho possível")  # Nenhum caminho encontrado
+    return None  # Nenhum caminho encontrado
 
 def descrever_passos(caminho):
+    if caminho is None:
+        print("Não há caminho possível")
+        return
+    
     print(f"DFS: Caminho encontrado com sucesso ({len(caminho) - 1} passos):\n")
     print(f"Passo 0: Início na Linha {caminho[0][0]}, Coluna {caminho[0][1]}")
 
