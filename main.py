@@ -12,6 +12,8 @@ labirinto_exemplo = [
 
 ]
 
+#fiz uma baita linha de codigo
+
 #Implementação BFS
 
 bfs.bfs(labirinto_exemplo)
